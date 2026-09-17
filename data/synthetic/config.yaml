@@ -1,0 +1,31 @@
+# SupplyShield AI - Synthetic Data Configuration
+
+simulation:
+  num_facilities: 10
+  num_suppliers: 3
+  num_days: 30
+  random_seed: 42
+
+medicine:
+  name: "Essential_Medicine"
+  initial_stock_min: 80
+  initial_stock_max: 200
+
+demand:
+  base_daily_min: 5
+  base_daily_max: 20
+  weekly_seasonality: true
+
+suppliers:
+  lead_time_min_days: 2
+  lead_time_max_days: 5
+
+facilities:
+  min_distance_km: 5
+  max_distance_km: 100
+
+shortage:
+  enable_disruption: true
+  disruption_start_day: 15
+  disruption_duration_days: 7
+  disruption_reduction: 0.50

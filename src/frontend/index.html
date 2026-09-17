@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SupplyShield AI</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =========================================================
+         TOP BAR
+    ========================================================== -->
+    <header class="topbar">
+        <div class="topbar__inner">
+
+            <div class="brand">
+                <div>
+                    <strong>SupplyShield AI</strong>
+                    <small>Medicine shortage intelligence</small>
+                </div>
+            </div>
+
+            <div class="topbar__status">
+                <span class="status" id="backend-status">
+                    <span class="status-dot"></span>
+                    Checking backend...
+                </span>
+
+                <span class="updated" id="last-updated">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                    —
+                </span>
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- =========================================================
+         MAIN SHELL
+    ========================================================== -->
+    <main class="shell">
+
+        <!-- =====================================================
+             INTRO
+        ====================================================== -->
+        <section class="intro">
+
+            <div>
+                <p class="eyebrow" id="briefing-date">
+                    INTELLIGENCE BRIEFING
+                </p>
+
+                <h1>
+                    Supply chain overview
+                </h1>
+
+                <p class="intro__copy">
+                    Detect emerging medicine shortages, identify regional
+                    pressure, and prioritize redistribution decisions.
+                </p>
+
+                <p class="intro__caption">
+                    <span id="medicine-name">Paracetamol 500 mg</span>
+                    &middot; Dryad facility-level data
+                </p>
+            </div>
+
+            <div class="scope">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5"/><path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"/></svg>
+                <span><strong id="scope-facilities-count">—</strong> facilities in scope</span>
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             TOP METRICS
+        ====================================================== -->
+        <section class="metrics">
+
+            <div class="metric">
+                <span class="metric__label">
+                    FACILITIES MONITORED
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+                </span>
+
+                <strong
+                    class="metric__value"
+                    id="facilities-count">
+                    —
+                </strong>
+
+                <p>
+                    Full network coverage
+                </p>
+            </div>
+
+
+            <div class="metric">
+                <span class="metric__label">
+                    SHORTAGE ALERTS
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M8.5 8.5a5 5 0 0 1 7 7M7 12a5 5 0 0 1 5-5m0 10a5 5 0 0 1-5-5"/></svg>
+                </span>
+
+                <strong
+                    class="metric__value signal"
+                    id="alerts-count">
+                    —
+                </strong>
+
+                <p>
+                    Active across network
+                </p>
+            </div>
+
+
+            <div class="metric">
+                <span class="metric__label">
+                    HIGH RISK
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>
+                </span>
+
+                <strong
+                    class="metric__value signal"
+                    id="high-risk-count">
+                    —
+                </strong>
+
+                <p>
+                    Requires action
+                </p>
+            </div>
+
+
+            <div class="metric">
+                <span class="metric__label">
+                    REGIONAL SIGNALS
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                </span>
+
+                <strong
+                    class="metric__value teal"
+                    id="regional-count">
+                    —
+                </strong>
+
+                <p>
+                    No anomalies detected
+                </p>
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PRIORITY ALERT + RISK OVERVIEW
+        ====================================================== -->
+        <section class="dashboard-grid">
+
+            <!-- =================================================
+                 PRIORITY ALERT
+                 NOTE: this card highlights the single highest-risk
+                 facility. It mirrors the first record already
+                 rendered into #alerts-container below — wire it to
+                 your fetch logic in app.js if you'd like it to
+                 update automatically from the live feed.
+            ================================================== -->
+            <div class="alert-card priority-alert" id="priority-alert-card">
+
+                <div class="alert-card__header">
+                    <div>
+                        <span class="priority-label" id="priority-alert-label">
+                            <span class="status-dot"></span>
+                            PRIORITY ALERT
+                        </span>
+
+                        <h2 id="priority-alert-title">
+                            Facility 10166
+                        </h2>
+
+                        <p id="priority-alert-subtitle">
+                            Current stockout with elevated regional shortage pressure
+                        </p>
+                    </div>
+
+                    <a
+                        href="#"
+                        class="button"
+                        id="priority-alert-investigate">
+                        Investigate <span>&rarr;</span>
+                    </a>
+                </div>
+
+
+                <div class="alert-stats priority-alert__stats">
+
+                    <div>
+                        <span>Shortage score</span>
+                        <strong id="priority-alert-score">0.765</strong>
+                    </div>
+
+                    <div>
+                        <span>ML risk</span>
+                        <strong class="signal" id="priority-alert-ml-risk">94.2%</strong>
+                    </div>
+
+                    <div>
+                        <span>Spatial pressure</span>
+                        <strong class="signal" id="priority-alert-spatial">90.0%</strong>
+                    </div>
+
+                    <div>
+                        <span>Evidence signals</span>
+                        <strong id="priority-alert-signals">4</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="evidence">
+
+                    <span class="evidence__label">WHY THIS WAS FLAGGED</span>
+
+                    <p id="priority-alert-reason">
+                        High ML shortage risk with current stockout, unusual
+                        demand behavior, and nearby facility pressure. Regional
+                        conditions suggest immediate review.
+                    </p>
+
+                    <div class="evidence__grid priority-alert__grid">
+
+                        <div>
+                            <span>Stock status</span>
+                            <strong id="priority-alert-stock-status">Stockout observed</strong>
+                        </div>
+
+                        <div>
+                            <span>Regional event</span>
+                            <strong id="priority-alert-regional-event">Detected</strong>
+                        </div>
+
+                        <div>
+                            <span>Demand pattern</span>
+                            <strong id="priority-alert-demand-pattern">Anomalous</strong>
+                        </div>
+
+                        <div>
+                            <span>Investigation date</span>
+                            <strong id="priority-alert-date">1 Jul 2023</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 RISK OVERVIEW
+            ================================================== -->
+            <div class="risk-card">
+
+                <div class="alert-card__header">
+                    <div>
+                        <p class="eyebrow">
+                            CURRENT DISTRIBUTION
+                        </p>
+
+                        <h2>
+                            Risk overview
+                        </h2>
+                    </div>
+
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+                </div>
+
+
+                <div class="risk-list">
+
+                    <!-- HIGH -->
+                    <div class="risk">
+
+                        <div class="risk__header">
+                            <span>
+                                High
+                                <small id="risk-high-percent">—</small>
+                            </span>
+
+                            <strong id="risk-high-count">—</strong>
+                        </div>
+
+                        <div class="track">
+                            <div
+                                class="track__fill signal"
+                                id="risk-high-bar">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- MODERATE -->
+                    <div class="risk">
+
+                        <div class="risk__header">
+                            <span>
+                                Moderate
+                                <small id="risk-moderate-percent">—</small>
+                            </span>
+
+                            <strong id="risk-moderate-count">—</strong>
+                        </div>
+
+                        <div class="track">
+                            <div
+                                class="track__fill warning"
+                                id="risk-moderate-bar">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- LOW -->
+                    <div class="risk">
+
+                        <div class="risk__header">
+                            <span>
+                                Low
+                                <small id="risk-low-percent">—</small>
+                            </span>
+
+                            <strong id="risk-low-count">—</strong>
+                        </div>
+
+                        <div class="track">
+                            <div
+                                class="track__fill teal"
+                                id="risk-low-bar">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- VERY LOW -->
+                    <div class="risk">
+
+                        <div class="risk__header">
+                            <span>
+                                Very low
+                                <small id="risk-very-low-percent">—</small>
+                            </span>
+
+                            <strong id="risk-very-low-count">—</strong>
+                        </div>
+
+                        <div class="track">
+                            <div
+                                class="track__fill teal"
+                                id="risk-very-low-bar">
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <p class="risk-card__footnote">
+                    Risk categories reflect the active model output for
+                    facilities with current shortage signals.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             LATEST MODEL ASSESSMENT
+        ====================================================== -->
+        <section class="section-block">
+
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">
+                        MODEL STATUS
+                    </p>
+
+                    <h2>
+                        Latest assessment
+                    </h2>
+                </div>
+
+                <span class="section-meta">
+                    Live scoring run
+                </span>
+            </div>
+
+            <div class="alert-card">
+
+                <div class="alert-card__header">
+                    <div>
+                        <p class="eyebrow">
+                            RUN SUMMARY
+                        </p>
+                    </div>
+
+                    <span class="alert-label">
+                        <span class="status-dot"></span>
+                        LIVE
+                    </span>
+                </div>
+
+
+                <div class="alert-stats">
+
+                    <div>
+                        <span>
+                            Assessment date
+                        </span>
+
+                        <strong id="latest-risk-date">
+                            —
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            Risk records
+                        </span>
+
+                        <strong id="risk-records">
+                            —
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            Spatial records
+                        </span>
+
+                        <strong id="spatial-records">
+                            —
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="evidence">
+
+                    <span class="evidence__label">
+                        SIGNALS USED
+                    </span>
+
+                    <div class="evidence__grid">
+
+                        <span>
+                            ML prediction
+                        </span>
+
+                        <span>
+                            Spatial pressure
+                        </span>
+
+                        <span>
+                            Inventory anomaly
+                        </span>
+
+                        <span>
+                            Regional signal
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FACILITY ALERTS
+        ====================================================== -->
+        <section class="section-block">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="eyebrow">
+                        PRIORITY FACILITIES
+                    </p>
+
+                    <h2>
+                        Facilities requiring attention
+                    </h2>
+                </div>
+
+                <span class="section-meta">
+                    Highest-risk records
+                </span>
+
+            </div>
+
+
+            <div
+                id="alerts-container"
+                class="alerts-container">
+
+                <div class="loading-state">
+                    Loading facility alerts...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FACILITY INVESTIGATION PANEL
+             Used for dashboard-level inline details if required
+        ====================================================== -->
+        <section
+            id="facility-details-panel"
+            class="section-block facility-details-panel"
+            style="display: none;">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="eyebrow">
+                        FACILITY INVESTIGATION
+                    </p>
+
+                    <h2>
+                        Facility details
+                    </h2>
+                </div>
+
+                <button
+                    id="close-details"
+                    class="button"
+                    type="button">
+                    Close
+                </button>
+
+            </div>
+
+
+            <div id="facility-details">
+
+                <!-- Filled by app.js -->
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             REGIONAL PRESSURE
+        ====================================================== -->
+        <section class="section-block">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="eyebrow">
+                        SPATIAL INTELLIGENCE
+                    </p>
+
+                    <h2>
+                        Regional shortage pressure
+                    </h2>
+                </div>
+
+                <span class="section-meta">
+                    Nearby facility signals
+                </span>
+
+            </div>
+
+
+            <div class="alert-card">
+
+                <div class="alert-card__header">
+
+                    <div>
+                        <p class="eyebrow">
+                            REGIONAL SIGNAL
+                        </p>
+
+                        <h2 id="regional-pressure-title">
+                            Detecting spatial pressure
+                        </h2>
+                    </div>
+
+                    <span
+                        class="alert-label"
+                        id="regional-pressure-badge">
+                        —
+                    </span>
+
+                </div>
+
+
+                <div class="alert-stats">
+
+                    <div>
+                        <span>
+                            Facilities with signal
+                        </span>
+
+                        <strong id="regional-signal-count">
+                            —
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            Stockout rate — signal
+                        </span>
+
+                        <strong id="regional-stockout-signal">
+                            —
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            Stockout rate — no signal
+                        </span>
+
+                        <strong id="regional-stockout-no-signal">
+                            —
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            Signal ratio
+                        </span>
+
+                        <strong id="regional-signal-ratio">
+                            —
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="evidence">
+
+                    <span class="evidence__label">
+                        INTERPRETATION
+                    </span>
+
+                    <p id="regional-pressure-description">
+                        Loading regional evidence...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             REDISTRIBUTION / INTERVENTION
+        ====================================================== -->
+        <section class="section-block">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="eyebrow">
+                        INTERVENTION SIMULATION
+                    </p>
+
+                    <h2>
+                        Redistribution opportunity
+                    </h2>
+                </div>
+
+                <span class="section-meta">
+                    Simulated donor matching
+                </span>
+
+            </div>
+
+
+            <div class="alert-card">
+
+                <div class="alert-card__header">
+
+                    <div>
+                        <p class="eyebrow">
+                            COUNTERFACTUAL
+                        </p>
+
+                        <h2 id="intervention-title">
+                            Potential intervention
+                        </h2>
+                    </div>
+
+                    <span
+                        class="alert-label"
+                        id="intervention-status">
+                        —
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="intervention-container"
+                    class="alert-stats">
+
+                    <div>
+                        <span>
+                            Recipient
+                        </span>
+
+                        <strong id="intervention-recipient">
+                            —
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            Donor
+                        </span>
+
+                        <strong id="intervention-donor">
+                            —
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            Distance
+                        </span>
+
+                        <strong id="intervention-distance">
+                            —
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            Donor safety
+                        </span>
+
+                        <strong id="intervention-safety">
+                            —
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="evidence">
+
+                    <span class="evidence__label">
+                        PRESSURE CHANGE
+                    </span>
+
+                    <div class="evidence__grid">
+
+                        <span>
+                            Before:
+                            <strong id="intervention-before">
+                                —
+                            </strong>
+                        </span>
+
+                        <span>
+                            After:
+                            <strong id="intervention-after">
+                                —
+                            </strong>
+                        </span>
+
+                        <span>
+                            Reduction:
+                            <strong id="intervention-reduction">
+                                —
+                            </strong>
+                        </span>
+
+                        <span>
+                            Transit probability:
+                            <strong id="intervention-transit">
+                                —
+                            </strong>
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <p class="simulation-note">
+                    This intervention is a model-based simulation.
+                    Donor availability, transport feasibility and pressure
+                    reduction are prototype assumptions rather than observed
+                    logistics transactions.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CASCADE SIMULATION
+        ====================================================== -->
+        <section class="section-block">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="eyebrow">
+                        PROPAGATION ANALYSIS
+                    </p>
+
+                    <h2>
+                        Shortage cascade simulation
+                    </h2>
+                </div>
+
+                <span class="section-meta">
+                    Simulated propagation
+                </span>
+
+            </div>
+
+
+            <div class="alert-card">
+
+                <div class="alert-card__header">
+
+                    <div>
+                        <p class="eyebrow">
+                            CASCADE MODEL
+                        </p>
+
+                        <h2>
+                            How pressure could spread
+                        </h2>
+                    </div>
+
+                    <span
+                        class="alert-label"
+                        id="cascade-status">
+                        —
+                    </span>
+
+                </div>
+
+
+                <div class="alert-stats">
+
+                    <div>
+                        <span>
+                            Origin facility
+                        </span>
+
+                        <strong id="cascade-origin">
+                            —
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            Facilities reached
+                        </span>
+
+                        <strong id="cascade-facilities">
+                            —
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            Maximum step
+                        </span>
+
+                        <strong id="cascade-max-step">
+                            —
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            Max pressure
+                        </span>
+
+                        <strong
+                            class="signal"
+                            id="cascade-max-pressure">
+                            —
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="evidence">
+
+                    <span class="evidence__label">
+                        PROPAGATION SUMMARY
+                    </span>
+
+                    <div class="evidence__grid">
+
+                        <span>
+                            Simulated records:
+                            <strong id="cascade-records">
+                                —
+                            </strong>
+                        </span>
+
+                        <span>
+                            Average pressure:
+                            <strong id="cascade-avg-pressure">
+                                —
+                            </strong>
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <p class="simulation-note">
+                    Cascade propagation is simulated from spatial and supplier
+                    relationships. The prototype does not claim to observe
+                    actual supplier-network transmission.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             SYSTEM INFORMATION
+        ====================================================== -->
+        <section
+            id="system-info"
+            class="section-block">
+
+            <div class="section-heading">
+
+                <div>
+                    <p class="eyebrow">
+                        SYSTEM INFORMATION
+                    </p>
+
+                    <h2>
+                        Model and data scope
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <div class="alert-card">
+
+                <div class="alert-stats">
+
+                    <div>
+                        <span>
+                            Medicine
+                        </span>
+
+                        <strong>
+                            Paracetamol 500 mg
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            Dataset
+                        </span>
+
+                        <strong>
+                            Dryad
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            Facilities
+                        </span>
+
+                        <strong id="system-facilities">
+                            —
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            Monthly observations
+                        </span>
+
+                        <strong id="system-records">
+                            —
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="evidence">
+
+                    <span class="evidence__label">
+                        PIPELINE
+                    </span>
+
+                    <div class="evidence__grid">
+
+                        <span>
+                            LightGBM prediction
+                        </span>
+
+                        <span>
+                            Spatial pressure
+                        </span>
+
+                        <span>
+                            Inventory anomaly
+                        </span>
+
+                        <span>
+                            Evidence fusion
+                        </span>
+
+                        <span>
+                            Explainable risk
+                        </span>
+
+                        <span>
+                            Intervention simulation
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <p class="simulation-note">
+                    The current implementation is a prototype. Prediction
+                    performance is evaluated on the available historical
+                    dataset, while cascade propagation and redistribution
+                    represent simulated decision-support scenarios.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FOOTER
+        ====================================================== -->
+        <footer class="footer">
+
+            <span>
+                SupplyShield AI
+            </span>
+
+            <span>
+                Healthcare Supply Chain Intelligence
+            </span>
+
+        </footer>
+
+    </main>
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+    <script src="app.js"></script>
+
+    <!-- =========================================================
+         Small non-breaking sync helper.
+         Mirrors the live facility count (populated by app.js into
+         #facilities-count) into the "facilities in scope" badge in
+         the hero. Safe to remove if you wire this up in app.js
+         instead.
+    ========================================================== -->
+    <script>
+        (function () {
+            var source = document.getElementById('facilities-count');
+            var target = document.getElementById('scope-facilities-count');
+            if (!source || !target) return;
+
+            var sync = function () {
+                target.textContent = source.textContent;
+            };
+
+            sync();
+            new MutationObserver(sync).observe(source, { childList: true, characterData: true, subtree: true });
+        })();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+supplier_id,total_records,disrupted_records,affected_facilities,disruption_rate,supplier_disrupted
+S01,120,28,4,0.23333333333333334,True
+S02,90,21,3,0.23333333333333334,True
+S03,90,21,3,0.23333333333333334,True

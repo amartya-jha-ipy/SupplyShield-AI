@@ -1,0 +1,1361 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap");
+
+:root {
+  /* Base surfaces */
+  --background: #f2f4fb;
+  --surface: #fff;
+  --foreground: #161a2b;
+  --muted: #6b7280;
+  --border: #e3e5f1;
+  --subtle: #f2f4fb;
+
+  /* Signal (urgent / high risk) */
+  --signal: #e0432a;
+  --signal-dark: #b32f1c;
+  --signal-soft: #fdeae5;
+
+  /* Indigo (brand / primary actions / informational) */
+  --indigo: #4f46e5;
+  --indigo-dark: #372fb8;
+  --indigo-soft: #eceafd;
+
+  /* Teal (positive / low risk / regional) */
+  --teal: #149c8d;
+  --teal-dark: #0d7568;
+  --teal-soft: #e2f6f2;
+
+  /* Amber (moderate risk) */
+  --warning: #dd9a26;
+  --warning-dark: #ad7517;
+  --warning-soft: #fdf1dc;
+
+  /* Green (very low risk / healthy) */
+  --green: #279e5b;
+  --green-dark: #1c7c47;
+  --green-soft: #e4f7ec;
+
+  /* Violet (secondary accent, used sparingly) */
+  --violet: #7c6ff0;
+  --violet-soft: #efedfd;
+
+  --radius: 10px;
+  --shadow: 0 1px 2px rgba(20, 22, 46, .05);
+  --shadow-md: 0 8px 22px rgba(28, 30, 66, .08);
+  --shadow-lg: 0 18px 40px rgba(28, 30, 66, .16);
+
+  --gradient-indigo: linear-gradient(135deg, var(--indigo), #6a62ee 60%, #8f79f3);
+  --gradient-signal: linear-gradient(135deg, var(--signal), #f0623f 60%, #f4835f);
+  --gradient-teal: linear-gradient(135deg, var(--teal), #1cc2ad);
+  --gradient-warning: linear-gradient(135deg, var(--warning), #efb84b);
+  --gradient-spectrum: linear-gradient(90deg, var(--indigo), var(--violet), var(--teal), var(--warning), var(--signal));
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { position: relative; margin: 0; background: var(--background); color: var(--foreground); font-family: "DM Sans", sans-serif; letter-spacing: 0; }
+a { color: inherit; text-decoration: none; }
+.icon { width: 15px; height: 15px; flex-shrink: 0; }
+
+/* Signature top hairline: a quiet nod to the multiple risk signals
+   this product tracks (indigo → violet → teal → amber → signal).
+   The one deliberately bold, whole-site gesture — everything else
+   stays disciplined. */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gradient-spectrum);
+  z-index: 80;
+}
+
+::selection { background: var(--indigo-soft); color: var(--indigo-dark); }
+
+a:focus-visible,
+button:focus-visible,
+.button:focus-visible,
+.investigate-btn:focus-visible,
+.back-link:focus-visible {
+  outline: 2px solid var(--indigo);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   TOP BAR
+   ============================================================ */
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 68px; padding: 0 max(20px, calc((100% - 1480px) / 2)); border-bottom: 1px solid var(--border); background: var(--surface); }
+.topbar__inner { width: min(100% - 40px, 1480px); min-height: 68px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand strong, .brand small { display: block; }
+.brand strong {
+  font: 700 17px "Space Grotesk", sans-serif;
+  background: linear-gradient(100deg, var(--foreground) 40%, var(--indigo) 120%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.brand small { margin-top: 2px; color: var(--muted); font-size: 12px; }
+.topbar__status { display: flex; align-items: center; gap: 16px; }
+.updated { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 12px; }
+.updated .icon { color: var(--indigo); }
+.status { display: flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid #c7ead9; border-radius: 20px; background: var(--green-soft); color: var(--green-dark); font-size: 11px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; box-shadow: 0 0 0 4px rgba(39, 158, 91, .07); transition: box-shadow .25s; }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: pulse 1.8s ease-in-out infinite; }
+
+/* facility.html uses its own (differently-named) header markup —
+   .brand-mark / .brand-text / .backend-status-wrap / .backend-status
+   instead of index.html's .brand__mark / .topbar__inner / .status —
+   styled to match here so both pages' headers look identical. */
+.brand-mark { display: grid; flex-shrink: 0; place-items: center; width: 36px; height: 36px; border-radius: 8px; background: var(--gradient-indigo); color: #fff; font: 700 18px "Space Grotesk", sans-serif; box-shadow: 0 6px 14px rgba(79, 70, 229, .28); }
+.brand-text { display: flex; flex-direction: column; }
+.brand-text strong { font: 700 17px "Space Grotesk", sans-serif; }
+.brand-text span { margin-top: 2px; color: var(--muted); font-size: 12px; }
+.backend-status-wrap { display: flex; align-items: center; }
+.backend-status { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 20px; background: var(--subtle); color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; }
+.backend-status.online { background: var(--green-soft); color: var(--green-dark); border-color: #c7ead9; box-shadow: 0 0 0 4px rgba(39, 158, 91, .07); }
+.backend-status.offline { background: var(--signal-soft); color: var(--signal-dark); border-color: #f4c7ba; box-shadow: 0 0 0 4px rgba(224, 67, 42, .07); }
+
+/* ============================================================
+   SHELL / INTRO
+   ============================================================ */
+.shell { width: min(100% - 40px, 1480px); margin: auto; padding: 44px 0 80px; }
+.intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding-bottom: 34px; }
+.eyebrow { margin: 0 0 10px; color: var(--signal); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+h1, h2, h3, p { margin-top: 0; }
+h1, h2 { font-family: "Space Grotesk", sans-serif; }
+h1 { margin-bottom: 0; font-size: clamp(32px, 4vw, 46px); line-height: 1.08; font-weight: 700; }
+.intro__copy { max-width: 620px; margin: 16px 0 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
+.intro__caption { max-width: 620px; margin: 12px 0 0; color: var(--muted); font-size: 12px; }
+.intro__caption span { color: var(--indigo-dark); font-weight: 600; }
+.scope { display: flex; align-items: center; gap: 8px; flex-shrink: 0; padding: 10px 16px; border: 1px solid var(--border); border-radius: 20px; background: var(--surface); color: var(--muted); font-size: 12px; box-shadow: var(--shadow); }
+.scope .icon { color: var(--indigo); }
+.scope strong { color: var(--foreground); font-family: "Space Grotesk", sans-serif; font-weight: 700; }
+
+/* ============================================================
+   METRICS
+   ============================================================ */
+.metrics { display: grid; grid-template-columns: repeat(4, 1fr); overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); background: var(--border); gap: 1px; box-shadow: var(--shadow); }
+.metric { position: relative; min-width: 0; padding: 24px 24px 22px; background: var(--surface); overflow: hidden; }
+.metric::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--indigo); }
+.metric:nth-child(2)::before { background: var(--gradient-signal); }
+.metric:nth-child(3)::before { background: var(--gradient-signal); }
+.metric:nth-child(4)::before { background: var(--gradient-teal); }
+.metric__label { display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+.metric__label .icon { color: var(--indigo); }
+.metric:nth-child(2) .metric__label .icon,
+.metric:nth-child(3) .metric__label .icon { color: var(--signal); }
+.metric:nth-child(4) .metric__label .icon { color: var(--teal-dark); }
+.metric__value { display: block; margin-top: 16px; font: 700 34px "Space Grotesk", sans-serif; }
+.metric p { margin: 8px 0 0; color: var(--muted); font-size: 12px; }
+.signal { color: var(--signal) !important; }
+.teal { color: var(--teal-dark) !important; }
+
+/* ============================================================
+   PRIORITY ALERT + RISK OVERVIEW
+   ============================================================ */
+.dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(320px, .95fr); gap: 20px; margin-top: 20px; }
+.alert-card, .risk-card { position: relative; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); box-shadow: var(--shadow); }
+
+/* Priority alert is the one place this dashboard is allowed to feel
+   urgent — a quiet radial wash in the signal color, nothing else on
+   the page carries this treatment. */
+.priority-alert { border-color: #f3d3c9; box-shadow: var(--shadow-md); }
+.priority-alert::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(560px 220px at 100% 0%, rgba(224, 67, 42, .08), transparent 60%),
+    linear-gradient(180deg, rgba(224, 67, 42, .04), transparent 30%);
+  pointer-events: none;
+}
+.priority-alert > * { position: relative; z-index: 1; }
+
+.alert-card__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; padding: 22px 26px; border-bottom: 1px solid var(--border); }
+.alert-card h2, .risk-card h2 { margin: 6px 0 0; font-size: 22px; }
+.alert-card__header > div > p:not(.eyebrow) { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+
+.priority-label { display: inline-flex; align-items: center; gap: 7px; color: var(--signal-dark); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.priority-label .status-dot { background: var(--signal); box-shadow: 0 0 0 4px var(--signal-soft); }
+.priority-alert__stats { grid-template-columns: repeat(4, 1fr) !important; }
+
+.alert-label { display: inline-flex; align-items: center; gap: 7px; padding: 6px 10px; border-radius: 20px; background: var(--indigo-soft); color: var(--indigo-dark); font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.alert-label .status-dot { background: var(--indigo); }
+
+.button {
+  display: inline-flex; min-height: 40px; align-items: center; gap: 9px; padding: 0 17px;
+  border: 0; border-radius: 8px;
+  background: var(--gradient-indigo); color: #fff;
+  font-size: 13px; font-weight: 700;
+  box-shadow: 0 6px 16px rgba(79, 70, 229, .28);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  cursor: pointer;
+}
+.button:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(79, 70, 229, .34); }
+.button:active { transform: translateY(0); box-shadow: 0 4px 10px rgba(79, 70, 229, .28); }
+.button:hover span { transform: translate(2px, -2px); }
+.button span { transition: transform .2s; display: inline-block; }
+
+/* The priority alert's CTA gets the urgent-signal gradient instead of
+   the default indigo action color, so color keeps telling the truth
+   about severity even on the button itself. */
+#priority-alert-investigate,
+.priority-alert .button {
+  background: var(--gradient-signal);
+  box-shadow: 0 6px 16px rgba(224, 67, 42, .3);
+}
+#priority-alert-investigate:hover,
+.priority-alert .button:hover {
+  box-shadow: 0 10px 22px rgba(224, 67, 42, .36);
+}
+
+/* Close / dismiss actions read as secondary — outline, not filled */
+#close-details.button {
+  background: var(--surface);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  box-shadow: none;
+}
+#close-details.button:hover {
+  background: var(--subtle);
+  border-color: #d5d8e6;
+  box-shadow: none;
+  transform: none;
+}
+
+.alert-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); background: var(--border); gap: 1px; }
+.alert-stats > div { padding: 18px 22px; background: var(--surface); }
+.alert-stats span { display: block; color: var(--muted); font-size: 11px; font-weight: 600; }
+.alert-stats strong { display: block; margin-top: 6px; font: 700 22px "Space Grotesk", sans-serif; }
+
+.evidence { padding: 24px 26px 30px; }
+.evidence__label { display: block; margin-bottom: 10px; color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+.evidence > p { max-width: 640px; margin: 0 0 20px; color: #434950; font-size: 13px; line-height: 1.65; }
+.evidence__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.evidence__grid > div, .evidence__grid > span { padding: 14px 15px; border-radius: 7px; background: var(--subtle); font-size: 12px; color: var(--muted); border: 1px solid transparent; transition: border-color .2s; }
+.evidence__grid > div:hover, .evidence__grid > span:hover { border-color: var(--border); }
+.evidence__grid strong { display: block; margin-top: 5px; color: var(--foreground); font-size: 13px; }
+
+/* Risk overview sidebar */
+.risk-card { padding: 24px 26px; }
+.risk-card .alert-card__header { padding: 0 0 20px; margin-bottom: 22px; border-bottom: 1px solid var(--border); }
+.risk-card .alert-card__header .icon { color: var(--indigo); }
+.risk-list { display: flex; flex-direction: column; gap: 22px; }
+.risk__header { display: flex; align-items: baseline; justify-content: space-between; }
+.risk__header span { display: flex; align-items: baseline; gap: 8px; font-size: 14px; font-weight: 600; }
+.risk__header small { color: var(--muted); font-size: 11px; font-weight: 500; }
+.risk__header strong { font: 700 20px "Space Grotesk", sans-serif; }
+.track { height: 6px; margin-top: 9px; overflow: hidden; border-radius: 10px; background: var(--subtle); }
+.track__fill { display: block; width: 0; height: 100%; border-radius: inherit; transition: width .6s ease; }
+.track__fill.signal { background: var(--gradient-signal); }
+.track__fill.warning { background: var(--gradient-warning); }
+.track__fill.teal { background: var(--gradient-teal); }
+.risk-card__footnote { margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 11px; line-height: 1.6; }
+
+/* ============================================================
+   GENERIC SECTIONS
+   ============================================================ */
+.section-block { margin-top: 40px; }
+.section-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.section-meta { color: var(--muted); font-size: 12px; }
+
+/* ============================================================
+   FACILITY ALERTS
+   This markup (.facility-alert-card and its __top / __identity /
+   __severity / __score / __metrics / __metric / __evidence /
+   __footer children) is generated by app.js's renderAlertCard() —
+   styled here to match exactly what gets injected into
+   #alerts-container.
+   ============================================================ */
+.alerts-container { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; width: 100%; }
+
+/* Each card is a real boxed surface: solid border, soft shadow, a
+   colored left rail for the risk level, and generous internal
+   padding so the stacked fields below never feel like plain text. */
+.facility-alert-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 24px 26px;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.facility-alert-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.facility-alert-card.high { border-left-color: var(--signal); background: linear-gradient(180deg, var(--signal-soft) 0%, var(--surface) 130px); }
+.facility-alert-card.moderate { border-left-color: var(--warning); background: linear-gradient(180deg, var(--warning-soft) 0%, var(--surface) 130px); }
+.facility-alert-card.low { border-left-color: var(--teal); background: linear-gradient(180deg, var(--teal-soft) 0%, var(--surface) 130px); }
+.facility-alert-card.very-low,
+.facility-alert-card.very_low { border-left-color: var(--green); background: linear-gradient(180deg, var(--green-soft) 0%, var(--surface) 130px); }
+
+/* ---- header: severity + title + district, score on the right ---- */
+.facility-alert-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.facility-alert-card__identity h3 {
+  margin: 9px 0 0;
+  font: 700 19px "Space Grotesk", sans-serif;
+}
+
+.facility-alert-card__identity p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.facility-alert-card__severity {
+  display: inline-flex;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: var(--subtle);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.facility-alert-card__severity.high { background: var(--signal-soft); color: var(--signal-dark); }
+.facility-alert-card__severity.moderate { background: var(--warning-soft); color: var(--warning-dark); }
+.facility-alert-card__severity.low { background: var(--teal-soft); color: var(--teal-dark); }
+.facility-alert-card__severity.very-low,
+.facility-alert-card__severity.very_low { background: var(--green-soft); color: var(--green-dark); }
+
+.facility-alert-card__score {
+  flex-shrink: 0;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: var(--subtle);
+  text-align: right;
+}
+.facility-alert-card__score span { display: block; color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+.facility-alert-card__score strong { display: block; margin-top: 4px; font: 700 22px "Space Grotesk", sans-serif; }
+
+/* ---- metrics: three boxed stats, clearly separated ---- */
+.facility-alert-card__metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.facility-alert-card__metric {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--subtle);
+}
+.facility-alert-card__metric span { display: block; color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+.facility-alert-card__metric strong { display: block; margin-top: 5px; font: 700 15px "Space Grotesk", sans-serif; }
+
+/* ---- primary evidence: its own labeled box ---- */
+.facility-alert-card__evidence {
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--indigo-soft);
+}
+.facility-alert-card__evidence span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--indigo-dark);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .05em;
+}
+.facility-alert-card__evidence p { margin: 0; color: #434950; font-size: 12.5px; line-height: 1.6; }
+
+.facility-alert-card.high .facility-alert-card__evidence { background: var(--signal-soft); }
+.facility-alert-card.high .facility-alert-card__evidence span { color: var(--signal-dark); }
+
+/* ---- footer: date + investigate action ---- */
+.facility-alert-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.facility-alert-card__footer > span { color: var(--muted); font-size: 12px; font-weight: 600; }
+
+.risk-badge { display: inline-flex; padding: 5px 10px; border-radius: 20px; background: var(--subtle); color: var(--muted); font-size: 10px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+.risk-badge.high { background: var(--signal-soft); color: var(--signal-dark); }
+.risk-badge.moderate { background: var(--warning-soft); color: var(--warning-dark); }
+.risk-badge.low { background: var(--teal-soft); color: var(--teal-dark); }
+.risk-badge.very-low, .risk-badge.very_low { background: var(--green-soft); color: var(--green-dark); }
+
+.investigate-btn {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 0 16px;
+  border: 0; border-radius: 8px;
+  background: var(--gradient-indigo); color: white;
+  font: 700 13px "DM Sans", sans-serif; cursor: pointer;
+  box-shadow: 0 5px 14px rgba(79, 70, 229, .26);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.investigate-btn:hover { transform: translateY(-1px); box-shadow: 0 9px 18px rgba(79, 70, 229, .32); }
+.investigate-btn span { display: inline-block; transition: transform .2s; }
+.investigate-btn:hover span { transform: translate(2px, -2px); }
+
+/* A high-risk card's Investigate button carries the urgency forward
+   in its own color, same logic as the priority alert CTA above. */
+.facility-alert-card.high .investigate-btn {
+  background: var(--gradient-signal);
+  box-shadow: 0 5px 14px rgba(224, 67, 42, .28);
+}
+.facility-alert-card.high .investigate-btn:hover {
+  box-shadow: 0 9px 18px rgba(224, 67, 42, .34);
+}
+
+.loading-state { grid-column: 1 / -1; padding: 60px 20px; text-align: center; color: var(--muted); font-size: 13px; }
+
+.empty-state { grid-column: 1 / -1; padding: 50px 20px; text-align: center; }
+.empty-state.compact { padding: 26px 20px; }
+.empty-icon { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; margin-bottom: 12px; border-radius: 50%; background: var(--gradient-teal); color: #fff; font-size: 18px; font-weight: 700; box-shadow: 0 6px 14px rgba(20, 156, 141, .28); }
+.empty-state h3, .empty-state h4 { margin: 0 0 6px; font-family: "Space Grotesk", sans-serif; }
+.empty-state p { margin: 0; color: var(--muted); font-size: 12px; }
+
+.facility-details-panel .close { align-self: flex-start; }
+
+.simulation-note { margin: 0 26px 26px; padding: 14px 17px; border: 1px solid var(--border); border-left: 3px solid var(--violet); border-radius: 7px; background: var(--violet-soft); color: #504a86; font-size: 11px; line-height: 1.6; }
+
+/* Backend status pill — app.js toggles .online / .offline */
+.status.online { background: var(--green-soft); color: var(--green-dark); border-color: #c7ead9; box-shadow: 0 0 0 4px rgba(39, 158, 91, .07); }
+.status.offline { background: var(--signal-soft); color: var(--signal-dark); border-color: #f4c7ba; box-shadow: 0 0 0 4px rgba(224, 67, 42, .07); }
+
+/* app.js wraps intervention results in an extra .intervention-result
+   div before injecting into #intervention-container.alert-stats —
+   display:contents keeps it participating in that same grid so the
+   existing .alert-stats styling still applies. */
+.alert-stats .intervention-result { display: contents; }
+.alert-stats .intervention-result > div { padding: 18px 22px; background: var(--surface); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer { display: flex; align-items: center; justify-content: space-between; margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; }
+
+/* ============================================================
+   MOTION
+   ============================================================ */
+@keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(.78); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 920px) {
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  .priority-alert__stats { grid-template-columns: repeat(2, 1fr) !important; }
+  .alert-stats { grid-template-columns: repeat(2, 1fr); }
+  .alerts-container { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .topbar__inner, .shell { width: min(100% - 32px, 1480px); }
+  .updated { display: none; }
+  .shell { padding-top: 32px; }
+  .intro { flex-direction: column; align-items: flex-start; }
+  .scope { align-self: flex-start; }
+  .metrics { grid-template-columns: 1fr; }
+  .metric { padding: 20px; }
+  .alert-card__header { flex-direction: column; }
+  .button { width: 100%; justify-content: center; }
+  .alert-stats { grid-template-columns: 1fr 1fr; }
+  .priority-alert__stats { grid-template-columns: 1fr 1fr !important; }
+  .evidence__grid { grid-template-columns: 1fr; }
+  .section-heading { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .footer { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
+
+
+/* ============================================================
+   SUPPLYSHIELD AI
+   FACILITY INVESTIGATION PAGE
+   ============================================================ */
+
+.facility-page {
+  width: min(100% - 40px, 1480px);
+  margin: auto;
+  padding: 34px 0 70px;
+}
+
+
+/* ============================================================
+   BACK TO DASHBOARD
+   ============================================================ */
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-bottom: 24px;
+
+  color: var(--muted);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  transition:
+    color .2s,
+    transform .2s;
+}
+
+.back-link:hover {
+  color: var(--indigo);
+  transform: translateX(-2px);
+}
+
+
+/* ============================================================
+   FACILITY HERO
+   ============================================================ */
+
+.facility-hero {
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 30px;
+
+  padding: 28px 30px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.facility-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(520px 200px at 100% 0%, rgba(224, 67, 42, .07), transparent 60%);
+  pointer-events: none;
+}
+
+.facility-hero > * { position: relative; z-index: 1; }
+
+
+.facility-eyebrow {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: var(--signal);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+
+.facility-hero h1 {
+  margin: 0;
+
+  font: 700 36px "Space Grotesk", sans-serif;
+}
+
+
+.facility-location {
+  margin: 8px 0 0;
+
+  color: var(--foreground);
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+.facility-date {
+  margin: 5px 0 0;
+
+  color: var(--muted);
+
+  font-size: 12px;
+}
+
+
+.facility-risk-display {
+  min-width: 170px;
+
+  text-align: right;
+}
+
+
+.facility-risk-display .risk-badge {
+  display: inline-flex;
+
+  padding: 5px 9px;
+
+  border-radius: 5px;
+
+  background: var(--signal-soft);
+
+  color: var(--signal-dark);
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: .04em;
+}
+
+
+.facility-score {
+  margin-top: 9px;
+
+  font: 700 42px "Space Grotesk", sans-serif;
+
+  line-height: 1;
+
+  background: var(--gradient-signal);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+
+.facility-risk-display > span:last-child {
+  display: block;
+
+  margin-top: 5px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+}
+
+
+/* ============================================================
+   FACILITY METRICS
+   ============================================================ */
+
+.investigation-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  margin-top: 20px;
+
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  background: var(--border);
+
+  gap: 1px;
+
+  box-shadow: var(--shadow);
+}
+
+
+.investigation-card {
+  position: relative;
+  min-width: 0;
+
+  padding: 21px 23px;
+
+  background: var(--surface);
+}
+
+.investigation-card:nth-child(1)::before,
+.investigation-card:nth-child(2)::before,
+.investigation-card:nth-child(3)::before,
+.investigation-card:nth-child(4)::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.investigation-card:nth-child(1)::before { background: var(--indigo); }
+.investigation-card:nth-child(2)::before { background: var(--gradient-signal); }
+.investigation-card:nth-child(3)::before { background: var(--gradient-warning); }
+.investigation-card:nth-child(4)::before { background: var(--gradient-teal); }
+
+
+.investigation-card-title {
+  color: var(--muted);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+}
+
+
+.metric-large {
+  display: block;
+
+  margin-top: 13px;
+
+  font: 700 32px "Space Grotesk", sans-serif;
+
+  line-height: 1;
+}
+
+
+.metric-label {
+  margin-top: 7px;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+  line-height: 1.4;
+}
+
+
+/* ============================================================
+   ML PROGRESS BAR
+   ============================================================ */
+
+.metric-bar {
+  height: 5px;
+
+  margin-top: 15px;
+
+  overflow: hidden;
+
+  border-radius: 10px;
+
+  background: var(--subtle);
+}
+
+
+.metric-bar-fill {
+  width: 0;
+
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: var(--gradient-signal);
+
+  transition: width .6s ease;
+}
+
+
+/* ============================================================
+   INVESTIGATION SECTIONS
+   ============================================================ */
+
+.investigation-section {
+  margin-top: 20px;
+
+  padding: 24px;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+
+.section-kicker {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: var(--indigo);
+
+  font-size: 10px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  letter-spacing: .08em;
+}
+
+
+/* ============================================================
+   EVIDENCE (investigation page variant)
+   ============================================================ */
+
+.evidence-list {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 10px;
+}
+
+
+.evidence-item {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 12px;
+
+  padding: 15px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 7px;
+
+  background: var(--subtle);
+}
+
+
+.evidence-icon {
+  display: grid;
+
+  flex: 0 0 27px;
+
+  width: 27px;
+  height: 27px;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: var(--gradient-teal);
+
+  color: #fff;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  box-shadow: 0 4px 10px rgba(20, 156, 141, .28);
+}
+
+
+.evidence-item.inactive .evidence-icon {
+  background: var(--background);
+
+  color: var(--muted);
+
+  box-shadow: none;
+}
+
+
+.evidence-item strong {
+  display: block;
+
+  font-size: 12px;
+}
+
+
+.evidence-item p {
+  margin: 5px 0 0;
+
+  color: var(--muted);
+
+  font-size: 11px;
+
+  line-height: 1.55;
+}
+
+
+.evidence-item.inactive {
+  opacity: .65;
+}
+
+
+/* ============================================================
+   LOCAL CONDITIONS
+   ============================================================ */
+
+.detail-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 1px;
+
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  background: var(--border);
+}
+
+
+.detail-metric {
+  min-width: 0;
+
+  padding: 16px;
+
+  background: var(--surface);
+}
+
+
+.detail-metric span {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+}
+
+
+.detail-metric strong {
+  display: block;
+
+  font: 700 18px "Space Grotesk", sans-serif;
+}
+
+
+/* ============================================================
+   XAI
+   ============================================================ */
+
+.xai-primary {
+  padding: 18px;
+
+  border-left: 3px solid var(--signal);
+
+  border-radius: 7px;
+
+  background: linear-gradient(135deg, #fff7f4, #fdeae5 140%);
+}
+
+
+.xai-label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: var(--signal-dark);
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: .08em;
+}
+
+
+.xai-primary p {
+  margin: 0;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+
+.xai-block,
+.xai-explanation {
+  margin-top: 10px;
+
+  padding: 17px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 7px;
+
+  background: var(--subtle);
+}
+
+
+.xai-block > span,
+.xai-explanation > span {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: var(--indigo-dark);
+
+  font-size: 10px;
+  font-weight: 800;
+
+  letter-spacing: .08em;
+}
+
+
+.xai-block p,
+.xai-explanation p {
+  margin: 0;
+
+  color: #434950;
+
+  font-size: 12px;
+
+  line-height: 1.65;
+}
+
+
+/* ============================================================
+   REDISTRIBUTION (investigation page variant)
+   ============================================================ */
+
+.redistribution-summary {
+  margin-bottom: 16px;
+}
+
+
+.redistribution-highlight {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding: 18px 20px;
+
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--teal);
+
+  border-radius: 7px;
+
+  background: var(--teal-soft);
+}
+
+
+.redistribution-highlight span {
+  color: var(--teal-dark);
+
+  font-size: 10px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+}
+
+
+.redistribution-highlight strong {
+  font: 700 19px "Space Grotesk", sans-serif;
+  color: var(--foreground);
+}
+
+
+.compact-grid {
+  margin-top: 10px;
+}
+
+
+.donor-list {
+  display: grid;
+
+  gap: 1px;
+
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+
+  background: var(--border);
+}
+
+
+.donor-option {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 14px 17px;
+
+  background: var(--surface);
+
+  transition: background .18s;
+}
+
+
+.donor-option:hover {
+  background: var(--indigo-soft);
+}
+
+
+.donor-main {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  min-width: 150px;
+}
+
+
+.donor-id {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.donor-category {
+  padding: 3px 6px;
+
+  border-radius: 4px;
+
+  background: var(--teal-soft);
+
+  color: var(--teal-dark);
+
+  font-size: 9px;
+  font-weight: 700;
+
+  text-transform: uppercase;
+}
+
+
+.donor-metrics {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(75px, 1fr));
+
+  gap: 18px;
+
+  text-align: right;
+}
+
+
+.donor-metrics span {
+  color: var(--foreground);
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+
+.donor-metrics small {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: var(--muted);
+
+  font-size: 9px;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+}
+
+
+/* ============================================================
+   SPATIAL TABLE
+   ============================================================ */
+
+.table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+
+  border: 1px solid var(--border);
+
+  border-radius: var(--radius);
+}
+
+
+.data-table {
+  width: 100%;
+
+  min-width: 720px;
+
+  border-collapse: collapse;
+}
+
+
+.data-table th {
+  padding: 12px 14px;
+
+  border-bottom: 1px solid var(--border);
+
+  background: var(--indigo-soft);
+
+  color: var(--indigo-dark);
+
+  font-size: 9px;
+  font-weight: 700;
+
+  text-align: left;
+
+  text-transform: uppercase;
+
+  letter-spacing: .04em;
+}
+
+
+.data-table td {
+  padding: 12px 14px;
+
+  border-bottom: 1px solid var(--border);
+
+  font-size: 11px;
+}
+
+
+.data-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+
+.data-table tbody tr:nth-child(even) {
+  background: var(--subtle);
+}
+
+
+.data-table tbody tr:hover {
+  background: var(--teal-soft);
+}
+
+
+.status-positive {
+  color: var(--teal-dark);
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+
+.status-neutral {
+  color: var(--muted);
+
+  font-size: 10px;
+}
+
+
+/* ============================================================
+   ERROR STATE
+   ============================================================ */
+
+.error-state {
+  padding: 30px;
+
+  border: 1px solid #f0c8bc;
+
+  border-radius: var(--radius);
+
+  background: #fff7f4;
+}
+
+
+.error-state h3 {
+  margin-bottom: 7px;
+
+  color: var(--signal-dark);
+}
+
+
+.error-state p {
+  color: var(--muted);
+
+  font-size: 13px;
+}
+
+
+/* ============================================================
+   INVESTIGATION PAGE — MOBILE
+   ============================================================ */
+
+@media (max-width: 920px) {
+
+  .investigation-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .detail-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .evidence-list {
+    grid-template-columns:
+      1fr;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .facility-page {
+    width: min(100% - 32px, 1480px);
+
+    padding-top: 26px;
+  }
+
+  .facility-hero {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    padding: 22px;
+  }
+
+  .facility-risk-display {
+    text-align: left;
+  }
+
+  .facility-hero h1 {
+    font-size: 30px;
+  }
+
+  .investigation-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .detail-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .investigation-section {
+    padding: 20px;
+  }
+
+  .redistribution-highlight {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 8px;
+  }
+
+  .donor-option {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .donor-metrics {
+    width: 100%;
+
+    grid-template-columns:
+      repeat(2, 1fr);
+
+    text-align: left;
+  }
+
+}

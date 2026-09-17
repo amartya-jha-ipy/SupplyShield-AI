@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Facility Investigation | SupplyShield AI
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
+
+    <header class="topbar">
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                S
+            </div>
+
+            <div class="brand-text">
+
+                <strong>
+                    SupplyShield AI
+                </strong>
+
+                <span>
+                    Medicine Shortage Intelligence
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="backend-status-wrap">
+
+            <span
+                id="backend-status"
+                class="backend-status"
+            >
+                Checking backend...
+            </span>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         PAGE
+         ===================================================== -->
+
+    <main class="facility-page">
+
+
+        <!-- BACK -->
+
+        <a
+            href="index.html"
+            class="back-link"
+        >
+            ← Back to Dashboard
+        </a>
+
+
+
+        <!-- =================================================
+             LOADING
+             ================================================= -->
+
+        <section
+            id="facility-loading"
+            class="loading-state"
+        >
+
+            <div class="loading-spinner"></div>
+
+            <h3>
+                Loading facility investigation...
+            </h3>
+
+            <p>
+                Retrieving facility-level shortage evidence.
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ERROR
+             ================================================= -->
+
+        <section
+            id="facility-error"
+            class="error-state"
+            style="display:none;"
+        >
+
+            <h3>
+                Unable to load facility
+            </h3>
+
+            <p id="facility-error-message">
+                An unexpected error occurred.
+            </p>
+
+            <a
+                href="index.html"
+                class="investigate-btn"
+            >
+                ← Return to Dashboard
+            </a>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FACILITY CONTENT
+             ================================================= -->
+
+        <div
+            id="facility-content"
+            style="display:none;"
+        >
+
+
+            <!-- =================================================
+                 HERO
+                 ================================================= -->
+
+            <section class="facility-hero">
+
+                <div class="facility-hero-left">
+
+                    <span class="facility-eyebrow">
+                        FACILITY INVESTIGATION
+                    </span>
+
+                    <h1>
+
+                        Facility
+                        <span id="facility-id">
+                            —
+                        </span>
+
+                    </h1>
+
+
+                    <p
+                        id="facility-location"
+                        class="facility-location"
+                    >
+                        —
+                    </p>
+
+
+                    <p
+                        id="facility-date"
+                        class="facility-date"
+                    >
+                        Risk assessment date: —
+                    </p>
+
+                </div>
+
+
+                <div class="facility-risk-display">
+
+                    <span
+                        id="facility-risk-badge"
+                        class="risk-badge"
+                    >
+                        —
+                    </span>
+
+
+                    <div
+                        id="facility-score"
+                        class="facility-score"
+                    >
+                        —
+                    </div>
+
+
+                    <span>
+                        fused shortage score
+                    </span>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 KEY METRICS
+                 ================================================= -->
+
+            <section class="investigation-grid">
+
+
+                <div class="investigation-card primary">
+
+                    <div class="investigation-card-title">
+                        Prediction
+                    </div>
+
+                    <div
+                        id="metric-ml-risk"
+                        class="metric-large"
+                    >
+                        —
+                    </div>
+
+                    <div class="metric-label">
+                        ML-predicted shortage risk
+                    </div>
+
+                    <div class="metric-bar">
+
+                        <div
+                            id="ml-risk-bar"
+                            class="metric-bar-fill"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="investigation-card">
+
+                    <div class="investigation-card-title">
+                        Spatial pressure
+                    </div>
+
+                    <div
+                        id="metric-spatial"
+                        class="metric-large"
+                    >
+                        —
+                    </div>
+
+                    <div class="metric-label">
+                        Nearby shortage pressure
+                    </div>
+
+                </div>
+
+
+
+                <div class="investigation-card">
+
+                    <div class="investigation-card-title">
+                        Evidence
+                    </div>
+
+                    <div
+                        id="metric-evidence"
+                        class="metric-large"
+                    >
+                        —
+                    </div>
+
+                    <div class="metric-label">
+                        shortage signals detected
+                    </div>
+
+                </div>
+
+
+
+                <div class="investigation-card">
+
+                    <div class="investigation-card-title">
+                        Current status
+                    </div>
+
+                    <div
+                        id="metric-stockout"
+                        class="metric-large"
+                    >
+                        —
+                    </div>
+
+                    <div
+                        id="metric-stockout-label"
+                        class="metric-label"
+                    >
+                        Current inventory status
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 EVIDENCE
+                 ================================================= -->
+
+            <section class="investigation-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            WHY THIS FACILITY IS FLAGGED
+                        </span>
+
+                        <h2>
+                            Evidence breakdown
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="evidence-list"
+                    class="evidence-list"
+                ></div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 LOCAL CONDITIONS
+                 ================================================= -->
+
+            <section class="investigation-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            LOCAL CONDITIONS
+                        </span>
+
+                        <h2>
+                            Facility and neighbourhood data
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="facility-metrics"
+                    class="detail-grid"
+                ></div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 XAI
+                 ================================================= -->
+
+            <section class="investigation-section xai-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            EXPLAINABLE AI
+                        </span>
+
+                        <h2>
+                            Model reasoning
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div id="xai-content"></div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 REDISTRIBUTION
+                 ================================================= -->
+
+            <section class="investigation-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            RESPONSE OPTIONS
+                        </span>
+
+                        <h2>
+                            Redistribution opportunities
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="redistribution-content"
+                ></div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 SPATIAL HISTORY
+                 ================================================= -->
+
+            <section class="investigation-section">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            SPATIAL SIGNAL
+                        </span>
+
+                        <h2>
+                            Recent spatial observations
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="spatial-content"
+                ></div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 PROTOTYPE NOTE
+                 ================================================= -->
+
+            <section class="simulation-note">
+
+                <strong>
+                    Prototype note:
+                </strong>
+
+                SupplyShield AI combines ML prediction,
+                observed stockout conditions, spatial
+                shortage signals and anomaly evidence.
+                Redistribution results shown here are
+                simulated decision-support scenarios rather
+                than observed supplier or transport records.
+
+            </section>
+
+
+        </div>
+
+    </main>
+
+
+
+    <script src="facility.js"></script>
+
+</body>
+
+</html>
